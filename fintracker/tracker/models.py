@@ -48,3 +48,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         """Return True if the user has permissions to view the app `app_label`."""
         return True
+
+
+
+class Category(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)  # Optional field
+    created_at = models.DateTimeField(auto_now_add=True)   # Automatically set when created
+    updated_at = models.DateTimeField(auto_now=True)       # Automatically set on every update
+
+    def __str__(self):
+        return self.name

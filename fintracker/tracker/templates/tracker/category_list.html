@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category List</title>
+</head>
+<body>
+    <h1>Categories</h1>
+    <a href="{% url 'tracker:category_create' %}">Create New Category</a>
+    <ul>
+        {% for category in categories %}
+        <li>
+            {{ category.name }} - {{ category.description }}
+            <a href="{% url 'tracker:category_update' category.category_id %}">Edit</a>
+            <a href="{% url 'tracker:category_delete' category.category_id %}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

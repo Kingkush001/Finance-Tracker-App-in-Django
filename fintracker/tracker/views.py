@@ -6,6 +6,9 @@ from django.http import HttpResponse
 from .forms import CustomUserCreationForm  # We'll define this form in the next step
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.shortcuts import get_object_or_404
+from .models import Category
+from .forms import CategoryForm
 
 
 # Register View
@@ -51,3 +54,39 @@ def user_logout(request):
 @login_required
 def dashboard(request):
     return render(request, 'tracker/dashboard.html')
+
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'tracker/category_list.html', {'categories': categories})
+
+# Create view for categories
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tracker:category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'tracker/category_form.html', {'form': form})
+
+# Update view for categories
+def category_update(request, category_id):
+    category = get_object_or_404(Category, category_id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('tracker:category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'tracker/category_form.html', {'form': form})
+
+# Delete view for categories
+def category_delete(request, category_id):
+    category = get_object_or_404(Category, category_id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('tracker:category_list')
+    return render(request, 'tracker/category_confirm_delete.html', {'category': category})
