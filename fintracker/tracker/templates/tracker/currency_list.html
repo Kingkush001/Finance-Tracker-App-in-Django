@@ -1,0 +1,45 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+  {% block title %}Currency List{% endblock %}
+
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-4">Currency List</h1>
+
+    <div class="mb-6">
+      <a href="{% url 'tracker:add_currency' %}" class="bg-green-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-green-600 transition duration-300">
+        Add New Currency
+      </a>
+      <a href="{% url 'tracker:download_currencies_csv' %}" class="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-300 ml-4">
+        Download CSV
+      </a>
+    </div>
+
+    <div class="overflow-x-auto bg-white shadow-lg rounded-md">
+      <table class="min-w-full table-auto text-left">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-2 px-4 border-b text-gray-700">Currency ID</th>
+            <th class="py-2 px-4 border-b text-gray-700">Currency Code</th>
+            <th class="py-2 px-4 border-b text-gray-700">Exchange Rate</th>
+            <th class="py-2 px-4 border-b text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for currency in currencies %}
+            <tr class="hover:bg-gray-50">
+              <td class="py-2 px-4 border-b text-gray-800">{{ currency.currency_id }}</td>
+              <td class="py-2 px-4 border-b text-gray-800">{{ currency.currency_code }}</td>
+              <td class="py-2 px-4 border-b text-gray-800">{{ currency.exchange_rate }}</td>
+              <td class="py-2 px-4 border-b">
+                <a href="{% url 'tracker:currency_detail' currency.currency_id %}" class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm hover:bg-blue-600 transition duration-200">
+                  View
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

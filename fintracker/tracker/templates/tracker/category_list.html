@@ -1,20 +1,42 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Category List</title>
 </head>
-<body>
-    <h1>Categories</h1>
-    <a href="{% url 'tracker:category_create' %}">Create New Category</a>
-    <ul>
-        {% for category in categories %}
-        <li>
-            {{ category.name }} - {{ category.description }}
-            <a href="{% url 'tracker:category_update' category.category_id %}">Edit</a>
-            <a href="{% url 'tracker:category_delete' category.category_id %}">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-4">Categories</h1>
+        
+        <!-- Create New Category Button -->
+        <a href="{% url 'tracker:category_create' %}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4">
+            Create New Category
+        </a>
+
+        <!-- Category List -->
+        <ul class="space-y-3">
+            {% for category in categories %}
+                <li class="bg-white p-4 rounded shadow-md hover:shadow-lg transition duration-300">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-medium text-gray-700">{{ category.name }}</h2>
+                            <p class="text-gray-500">{{ category.description }}</p>
+                        </div>
+                        <div class="space-x-3">
+                            <!-- Edit and Delete Links -->
+                            <a href="{% url 'tracker:category_update' category.category_id %}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                            <a href="{% url 'tracker:category_delete' category.category_id %}" class="text-red-500 hover:text-red-700">Delete</a>
+                        </div>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="bg-white p-4 rounded shadow-md text-center text-gray-500">No categories available.</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
+{% endblock %}

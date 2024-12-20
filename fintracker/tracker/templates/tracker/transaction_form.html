@@ -1,0 +1,52 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+
+    <div class="max-w-4xl mx-auto py-8 px-4 bg-gray-100">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Transactions</h1>
+
+        <a href="{% url 'tracker:transaction_create' %}" class="inline-block mb-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200">
+            Add New Transaction
+        </a>
+
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+            <table class="min-w-full table-auto border-collapse">
+                <thead class="bg-gray-200 text-gray-800">
+                    <tr>
+                        <th class="px-4 py-2 border-b">Date</th>
+                        <th class="px-4 py-2 border-b">Category</th>
+                        <th class="px-4 py-2 border-b">Description</th>
+                        <th class="px-4 py-2 border-b">Amount</th>
+                        <th class="px-4 py-2 border-b">Currency</th>
+                        <th class="px-4 py-2 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">{{ transaction.transaction_date }}</td>
+                        <td class="px-4 py-2">{{ transaction.category.name }}</td>
+                        <td class="px-4 py-2">{{ transaction.description }}</td>
+                        <td class="px-4 py-2">{{ transaction.amount }}</td>
+                        <td class="px-4 py-2">{{ transaction.currency.code }}</td>
+                        <td class="px-4 py-2">
+                            {% if transaction.transaction_id %}
+                                <a href="{% url 'tracker:transaction_edit' transaction.transaction_id %}" class="text-blue-500 hover:text-blue-700">
+                                    Edit
+                                </a>
+                            {% else %}
+                                <span class="text-gray-400">No ID</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-2 text-center text-gray-500">No transactions found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

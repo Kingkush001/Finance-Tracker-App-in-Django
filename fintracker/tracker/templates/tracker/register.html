@@ -1,17 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
-    <h2>Register</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-</body>
-</html>
+{% extends "tracker/landingpage.html" %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+<form method="post" class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+        <label for="id_username" class="block text-gray-700 font-semibold mb-2">Username</label>
+        {{ form.username|add_class:"form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" }}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_email" class="block text-gray-700 font-semibold mb-2">Email</label>
+        {{ form.email|add_class:"form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" }}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_phone_number" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
+        {{ form.phone_number|add_class:"form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" }}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_password1" class="block text-gray-700 font-semibold mb-2">Password</label>
+        {{ form.password1|add_class:"form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" }}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_password2" class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+        {{ form.password2|add_class:"form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" }}
+    </div>
+
+    <div class="mb-6">
+        <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Register
+        </button>
+    </div>
+
+    {% if form.errors %}
+        <div class="text-red-500 text-sm">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Login Link -->
+    <div class="mt-4 text-center text-sm">
+        <p>Already have an account? <a href="{% url 'tracker:login' %}" class="text-blue-500 hover:text-blue-600">Login here</a></p>
+    </div>
+</form>
+
+{% endblock %}

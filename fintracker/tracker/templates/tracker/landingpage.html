@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Finance Tracker{% endblock %}</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header -->
+    <header>
+        <nav class="bg-gray-800 text-white">
+            <div class="container mx-auto flex justify-between items-center px-4 py-3">
+                <a href="" class="text-xl font-bold">Finance Tracker</a>
+                <button class="lg:hidden block text-white focus:outline-none">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+                <ul class="hidden lg:flex space-x-4">
+                    <li><a href="{% url 'tracker:login' %}" class="hover:text-gray-300">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 px-4">
+        {% block content %}
+        <!-- Default content -->
+        <div class="text-center">
+            <h1 class="text-3xl font-bold mb-4">Welcome to Finance Tracker</h1>
+            <p class="text-gray-600">Manage your budgets, transactions, and financial goals all in one place.</p>
+        </div>
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <p>&copy; 2024 Finance Tracker. All rights reserved.</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

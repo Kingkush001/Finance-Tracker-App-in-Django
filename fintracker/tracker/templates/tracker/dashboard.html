@@ -1,13 +1,72 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
 </head>
-<body>
-    <h2>Welcome to your Dashboard, {{ user.first_name }}!</h2>
-    <p>You're logged in successfully.</p>
-    <p><a href="{% url 'logout' %}">Logout</a></p>
+
+<body class="bg-gray-100 font-sans antialiased">
+
+    <!-- Container for the dashboard content -->
+    <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+
+        <!-- Heading -->
+        <h2 class="text-3xl font-semibold text-gray-800 mb-4">Welcome to your Dashboard, {{ user.first_name }}!</h2>
+
+        <!-- Success message -->
+        <p class="text-lg text-gray-600 mb-6">You're logged in successfully.</p>
+
+        <!-- Navigation links -->
+        <ul class="space-y-4">
+            <li>
+                <a href="{% url 'tracker:category_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">Manage Categories</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:budget_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Budgets</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:debt_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Debts</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:savings_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Savings</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:report_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Reports</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:currency_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Currencies</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:transaction_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">View Transactions</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:recurring_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">Recurring Transactions</a>
+            </li>
+            <li>
+                <a href="{% url 'tracker:transaction_list' %}" class="block text-indigo-600 hover:text-indigo-800 font-medium transition duration-300 ease-in-out">Transactions</a>
+            </li>
+        </ul>
+
+        <!-- Logout link -->
+        <div class="mt-6">
+            <p>
+                <a href="{% url 'tracker:logout' %}" class="block text-red-600 hover:text-red-800 font-medium transition duration-300 ease-in-out">Logout</a>
+            </p>
+        </div>
+        
+    </div>
+
 </body>
+
 </html>
+
+
+{% endblock %}

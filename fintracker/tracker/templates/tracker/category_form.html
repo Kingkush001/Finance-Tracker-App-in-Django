@@ -1,16 +1,54 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create or Update Category</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Category</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'tracker:category_list' %}">Back to Category List</a>
+
+<body class="bg-gray-100 font-sans flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+            {% if form.instance.pk %}Update{% else %}Create{% endif %} Category
+        </h1>
+        
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <!-- Render the form fields -->
+            <div class="space-y-4">
+                {{ form.as_p }}
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Save
+            </button>
+        </form>
+
+        <!-- Back to Category List link -->
+        <a href="{% url 'tracker:category_list' %}" class="block text-center text-blue-500 mt-4 hover:underline">
+            Back to Category List
+        </a>
+    </div>
+
+    <!-- Tailwind Custom CSS for Input Fields -->
+    <style>
+        input, select, textarea {
+            @apply border border-gray-300 rounded-md px-4 py-2 w-full focus:border-blue-500 focus:ring-2 focus:ring-blue-300;
+        }
+    </style>
+
 </body>
+
 </html>
+
+
+
+{% endblock  %}

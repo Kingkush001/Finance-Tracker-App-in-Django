@@ -1,0 +1,15 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-4">Budget Detail</h1>
+    <div class="space-y-4">
+        <p class="text-lg text-gray-600"><strong>Category:</strong> {{ budget.category.name }}</p>
+        <p class="text-lg text-gray-600"><strong>Amount:</strong> ${{ budget.amount }}</p>
+        <p class="text-lg text-gray-600"><strong>Start Date:</strong> {{ budget.start_date }}</p>
+        <p class="text-lg text-gray-600"><strong>End Date:</strong> {{ budget.end_date }}</p>
+        <p class="text-lg text-gray-600"><strong>Created At:</strong> {{ budget.created_at }}</p>
+    </div>
+    <a href="{% url 'budget_list' %}" class="mt-6 inline-block text-blue-500 hover:text-blue-700">Back to Budgets</a>
+</div>
+{% endblock %}

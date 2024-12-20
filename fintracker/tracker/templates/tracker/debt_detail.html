@@ -1,0 +1,19 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-semibold mb-6 text-gray-800">Debt Details</h1>
+  <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+    <p class="mb-4"><strong class="text-gray-700">Amount:</strong> <span class="text-gray-900">{{ debt.amount }}</span></p>
+    <p class="mb-4"><strong class="text-gray-700">Description:</strong> <span class="text-gray-900">{{ debt.description }}</span></p>
+    <p class="mb-4"><strong class="text-gray-700">Due Date:</strong> <span class="text-gray-900">{{ debt.due_date }}</span></p>
+    <p class="mb-4"><strong class="text-gray-700">Paid:</strong> <span class="text-gray-900">{{ debt.is_paid }}</span></p>
+
+    <div class="mt-6 flex space-x-4">
+      <a href="{% url 'debt_update' debt.id %}" class="text-blue-500 hover:text-blue-700">Edit</a>
+      <a href="{% url 'debt_delete' debt.id %}" class="text-red-500 hover:text-red-700">Delete</a>
+      <a href="{% url 'debt_list' %}" class="text-gray-600 hover:text-gray-800">Back to List</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

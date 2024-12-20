@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-blue-600 p-4">
+        <nav>
+            <ul class="flex space-x-6 justify-center">
+                <li><a href="{% url 'tracker:debt_list' %}" class="text-white hover:text-yellow-300">Debts</a></li>
+                <li><a href="{% url 'tracker:dashboard' %}" class="text-white hover:text-yellow-300">Dashboard</a></li>
+                <li><a href="{% url 'tracker:budget_list' %}" class="text-white hover:text-yellow-300">Budgets</a></li>
+                <li><a href="{% url 'tracker:category_list' %}" class="text-white hover:text-yellow-300">Categories</a></li>
+                <li><a href="{% url 'tracker:savings_list' %}" class="text-white hover:text-yellow-300">Savings</a></li>
+                <li><a href="{% url 'tracker:recurring_list' %}" class="text-white hover:text-yellow-300">Recurring Transactions</a></li>
+                <li><a href="{% url 'tracker:transaction_list' %}" class="text-white hover:text-yellow-300">Transactions</a></li>
+                <li><a href="{% url 'tracker:logout' %}" class="text-white hover:text-yellow-300">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="p-6">
+        {% block content %}
+        <!-- Content specific to each page will go here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-600 text-center p-4 mt-8">
+        <p class="text-white">&copy; 2024 Tracker. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
