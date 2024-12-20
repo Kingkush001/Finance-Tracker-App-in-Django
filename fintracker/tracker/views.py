@@ -3,18 +3,23 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.http import HttpResponse
-from .forms import CustomUserCreationForm,DebtForm,BudgetForm,CategoryForm,SavingsForm
+from .forms import CustomUserCreationForm,DebtForm,BudgetForm,CategoryForm,SavingsForm,RecurringTransactionForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Category,Budget,Debt,Savings,Report
+from .models import Category,Budget,Debt,Savings,Report,RecurringTransaction,Report,Transaction, Category, Currency
 from django.contrib.auth import get_user_model
 import csv
-from django.template.loader import render_to_string
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas 
 import io
-User = get_user_model()
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse 
+from .forms import TransactionForm
+from django.contrib import messages
+from .forms import ReportForm
+from django.utils import timezone
 
+User = get_user_model()
 
 def register(request):
     if request.method == 'POST':
@@ -36,7 +41,6 @@ def register(request):
 
     # Render the registration template with the form
     return render(request, 'tracker/register.html', {'form': form})
-
 
 # Login View
 def user_login(request):
@@ -68,13 +72,10 @@ def user_login(request):
 
     return render(request, 'tracker/login.html', {'form': form})
 
-
-
 def user_logout(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
     return redirect('tracker:login')  # Redirect to the login page after logout
-
 
 # Dashboard View (Only accessible after login)
 @login_required
@@ -87,10 +88,6 @@ def category_list(request):
     return render(request, 'tracker/category_list.html', {'categories': categories})
 
 # Create view for categories
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import CategoryForm
-
 @login_required
 def category_create(request):
     if request.method == 'POST':
@@ -106,8 +103,6 @@ def category_create(request):
     else:
         form = CategoryForm()
     return render(request, 'tracker/category_form.html', {'form': form})
-
-
 
 # Update view for categories
 @login_required
@@ -218,7 +213,6 @@ def debt_delete(request, debt_id):
         return redirect("tracker:debt_list")
     return render(request, "tracker/debt_confirm_delete.html", {"debt": debt})
 
-
 # Display all savings
 @login_required
 def savings_list(request):
@@ -267,10 +261,6 @@ def report_list(request):
     reports = Report.objects.all()
     return render(request, 'tracker/report_list.html', {'reports': reports})
 
-from datetime import datetime
-from .models import Report
-from django.utils import timezone
-
 def generate_report(user, report_name, report_type):
     # Check if the report type is valid
     valid_report_types = ['summary', 'detailed', 'monthly', 'annual']
@@ -289,10 +279,6 @@ def generate_report(user, report_name, report_type):
 
     return new_report
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import ReportForm
-from .models import Report
   # assuming your function is in a utils.py file
 
 def generate_report_view(request):
@@ -357,12 +343,6 @@ def download_report_pdf(request, report_id):
     buffer.close()
     return response
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from .models import Currency
-import csv
-
 # List all currencies
 def currency_list(request):
     currencies = Currency.objects.all()
@@ -395,10 +375,6 @@ def download_currencies_csv(request):
 
     return response
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from .models import Transaction, Category, Currency
-from .forms import TransactionForm
 
 def transaction_list(request):
     transactions = Transaction.objects.filter(user=request.user).order_by('-transaction_date')
@@ -427,12 +403,6 @@ def transaction_edit(request, transaction_id):
     else:
         form = TransactionForm(instance=transaction)
     return render(request, 'tracker/transaction_form.html', {'form': form})
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from .models import RecurringTransaction
-from .forms import RecurringTransactionForm
 
 # List View
 def recurring_list(request):
